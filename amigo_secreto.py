@@ -1,9 +1,11 @@
 import random
 import time
-# import tkinter as tk
 import urllib
 import webbrowser as web
 from urllib import parse
+
+# import tkinter as tk
+import keyboard as k
 import pyautogui
 import schedule
 
@@ -16,16 +18,10 @@ def amigo_secreto(participantes):
 
 
 def enviar_Zap(participantes):
-    # Obtém a largura e a altura da tela
-    # root = tk.Tk()
-
-    # largura_tela = root.winfo_screenwidth()
-    # altura_tela = root.winfo_screenheight()
-
-    # root.destroy()
-
     for participante in participantes:
         pyautogui.click(1200, 0)
+
+        # espera 60 segundos para enviar a nova mensagem
         time.sleep(60)
 
         mensagem = f"""
@@ -58,11 +54,11 @@ def enviar_Zap(participantes):
         # Posiciona o cursor no botão de envio
         pyautogui.click(2040, 980)
 
-        # espera 20 segundos
+        # espera 20 segundos para clicar no botão de envio
         time.sleep(20)
 
         # clica no botão de enviar do zap web
-        # k.press_and_release('enter')
+        k.press_and_release('enter')
 
         print('Enviado com sucesso para: ', participante['nome'])
 
@@ -78,14 +74,32 @@ def enviar_Lista_Ana(participantes):
 
     texto = urllib.parse.quote(mensagem)
 
+    # abre a pagina de whatsapp web
     web.open("https://web.whatsapp.com/send?phone=+5534998723109&text=" + texto)
+
+    # Posiciona o cursor no botão de envio
     pyautogui.click(2040, 980)
+
+    # espera 20 segundos para clicar no botão de envio
     time.sleep(20)
-    # k.press_and_release('enter')
+
+    # clica no botão de enviar do zap web
+    k.press_and_release('enter')
+
     print('Enviado Lista dos parcipantes pra Ana com sucesso!')
 
 
 def gerar_arquivo():
+    # Obtém a largura e a altura da tela
+    # root = tk.Tk()
+
+    # largura_tela = root.winfo_screenwidth()
+    # altura_tela = root.winfo_screenheight()
+    # print(largura_tela)
+    # print(altura_tela)
+
+    # root.destroy()
+
     print('Gerando Arquivo...')
 
     lista_participantes = {
@@ -136,6 +150,8 @@ def gerar_arquivo():
             tudoOk = False
 
     if tudoOk:
+
+        # criando uma lista com o nomes, telefones e sorteados
         lista = []
         for nome in nomes:
             lista.append({"nome": nome[0], "telefone": lista_participantes.get(nome[0]), "sorteado": nome[1]})
