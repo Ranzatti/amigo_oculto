@@ -108,6 +108,8 @@ def gerar_arquivo():
         # 'Ariane': '67981584772',
         # 'Marlei': '61991354006',
         # 'João Gabriel': '61999198248',
+        # 'Alice': '34988614573',
+        # 'Humilda': '34999796471',
     }
 
     participantes = []
