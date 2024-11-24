@@ -1,12 +1,11 @@
 import random
 import time
-import tkinter as tk
+# import tkinter as tk
 import urllib
 import webbrowser as web
-import keyboard as k
+from urllib import parse
 import pyautogui
 import schedule
-from urllib import parse
 
 
 def amigo_secreto(participantes):
@@ -16,34 +15,28 @@ def amigo_secreto(participantes):
     return list(zip(participantes, amigo))
 
 
-def enviar_Zap():
-    root = tk.Tk()
-
+def enviar_Zap(participantes):
     # Obtém a largura e a altura da tela
+    # root = tk.Tk()
+
     # largura_tela = root.winfo_screenwidth()
     # altura_tela = root.winfo_screenheight()
 
-    # Fecha a janela tkinter temporária
-    root.destroy()
+    # root.destroy()
 
-    with open("dados.txt", "r") as arquivo:
-        linhas = arquivo.readlines()
-
-    for linha in linhas[1:]:
-        campos = linha.strip().split(";")
-
+    for participante in participantes:
         pyautogui.click(1200, 0)
-        time.sleep(30)
+        time.sleep(60)
 
         mensagem = f"""
-        Querido(a) _*{campos[0]}*_,
+        Querido(a) _*{participante['nome']}*_,
 
         A época mais mágica do ano está chegando, e é hora de revelar quem terá a alegria de ser o seu Amigo Oculto!
         Após um sorteio emocionante, 5 horas de processamento, computadores a mil... o nome que você deverá manter em segredo até a grande troca de presentes é...
 
         Que rufem os tambores....
 
-        🌟✨🎄🎉🎁🎅 _*{campos[2].upper()}*_ 🎅🎁🎉🎄✨🌟
+        🌟✨🎄🎉🎁🎅 _*{participante['sorteado'].upper()}*_ 🎅🎁🎉🎄✨🌟
 
         Agora que o segredo foi revelado, é hora de começar a pensar no presente perfeito para surpreender o seu amigo. 
         
@@ -60,31 +53,35 @@ def enviar_Zap():
 
         texto = urllib.parse.quote(mensagem)
 
-        web.open("https://web.whatsapp.com/send?phone=+55" + campos[1] + "&text=" + texto)
+        web.open("https://web.whatsapp.com/send?phone=+55" + participante['telefone'] + "&text=" + texto)
 
         # Posiciona o cursor no botão de envio
         pyautogui.click(2040, 980)
+
+        # espera 20 segundos
         time.sleep(20)
 
         # clica no botão de enviar do zap web
-        k.press_and_release('enter')
+        # k.press_and_release('enter')
 
-        print('Enviado com sucesso para ', campos[0])
+        print('Enviado com sucesso para: ', participante['nome'])
 
 
-def enviar_Lista_Ana(nomes):
+def enviar_Lista_Ana(participantes):
+    pyautogui.click(1200, 0)
+    time.sleep(60)
+
     mensagem = f"""
             Participantes do Amigo Oculto 2024:
             
-            """ + ", ".join([f"{x} → {y}" for x, y in nomes])
+            """ + ", ".join([f"{item['nome']} → {item['sorteado']}" for item in participantes])
 
     texto = urllib.parse.quote(mensagem)
 
-    # web.open("https://web.whatsapp.com/send?phone=+5534998723109&text=Participantes do Amigo Oculto 2024: " + ", ".join([f"{x} → {y}" for x, y in nomes]))
     web.open("https://web.whatsapp.com/send?phone=+5534998723109&text=" + texto)
     pyautogui.click(2040, 980)
     time.sleep(20)
-    k.press_and_release('enter')
+    # k.press_and_release('enter')
     print('Enviado Lista dos parcipantes pra Ana com sucesso!')
 
 
@@ -92,25 +89,25 @@ def gerar_arquivo():
     print('Gerando Arquivo...')
 
     lista_participantes = {
-        # 'Laura': '34996690025',
-        # 'Raquel': '34999830025',
-        # 'Matheus': '34998089988',
-        # 'Ricardo': '34998100025',
-        'Fernanda': '61992856117',
-        'Cecilia': '61992856117',
-        'Milania': '61996993610',
-        'Marco': '61992164119',
-        'Maria Paula': '61998410397',
-        'Ricardo': '34998100025',
-        'Raquel': '34999830025',
         'Laura': '34996690025',
+        'Raquel': '34999830025',
         'Matheus': '34998089988',
-        'Alba': '34991733739',
-        'Galeno': '34997259024',
-        'Joyce': '62998651781',
-        'Ariane': '67981584772',
-        'Marlei': '61991354006',
-        'João Gabriel': '61999198248',
+        'Ricardo': '34998100025',
+        # 'Fernanda': '61992856117',
+        # 'Cecilia': '61992856117',
+        # 'Milania': '61996993610',
+        # 'Marco': '61992164119',
+        # 'Maria Paula': '61998410397',
+        # 'Ricardo': '34998100025',
+        # 'Raquel': '34999830025',
+        # 'Laura': '34996690025',
+        # 'Matheus': '34998089988',
+        # 'Alba': '34991733739',
+        # 'Galeno': '34997259024',
+        # 'Joyce': '62998651781',
+        # 'Ariane': '67981584772',
+        # 'Marlei': '61991354006',
+        # 'João Gabriel': '61999198248',
     }
 
     participantes = []
@@ -123,31 +120,28 @@ def gerar_arquivo():
     # Chamar a função amigo_secreto
     nomes = amigo_secreto(participantes)
 
-    tudook = True
+    tudoOk = True
     # verificando se a pessoa saiu com ela mesmo
     for nome in nomes:
         if nome[0] == nome[1]:
             print('Sujeito Saiu com ele mesmo, faz de novo: ', nome[0])
-            tudook = False
+            tudoOk = False
 
     # verificando se o numero de telefone é valido
     for telefone in telefone_participantes:
         if len(telefone) != 11:
             print('Telefone errado:', telefone, len(telefone))
-            tudook = False
+            tudoOk = False
 
-    if tudook:
-        # gravando no arquivo texto com o nome da pessoa, telefone e quem ele foi sorteado
-        with open("dados.txt", "w") as arquivo:
-            arquivo.write("nome;telefone;sorteado\n")
-            for nome in nomes:
-                arquivo.write(f"{nome[0]};{lista_participantes.get(nome[0])};{nome[1]}\n")
+    if tudoOk:
+        lista = []
+        for nome in nomes:
+            lista.append({"nome": nome[0], "telefone": lista_participantes.get(nome[0]), "sorteado": nome[1]})
 
-        enviar_Zap()
-        enviar_Lista_Ana(nomes)
+        enviar_Zap(lista)
+        enviar_Lista_Ana(lista)
 
-        print('Arquivo com os nomes gerado com!')
-
+        print('Sorteio realizado com Sucesso!')
         exit()
     else:
         print('Ops! deu ruim')
@@ -155,7 +149,7 @@ def gerar_arquivo():
 
 # programado para começar às 02:50 da manha de sexta
 # schedule.every().saturday.at("22:25").do(gerar_arquivo)
-# gerar_arquivo()
+gerar_arquivo()
 
 while 1:
     schedule.run_pending()
