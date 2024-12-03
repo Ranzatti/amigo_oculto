@@ -7,7 +7,6 @@ import pyautogui
 import schedule
 from urllib import parse
 
-
 # import tkinter as tk
 
 
@@ -29,23 +28,22 @@ def enviar_zap(participantes):
         Querido(a) _*{participante['nome']}*_,
 
         A época mais mágica do ano está chegando, e é hora de revelar quem terá a alegria de ser o seu Amigo Oculto!
+        
         Após um sorteio emocionante, 5 horas de processamento, computadores a mil... o nome que você deverá manter em segredo até a grande troca de presentes é...
 
         Que rufem os tambores....
 
-        🌟✨🎄🎉🎁🎅 _*{participante['sorteado'].upper()}*_ 🎅🎁🎉🎄✨🌟
+        🌟🎄🎁   _*{participante['sorteado'].upper()}*_   🎁🎄🌟
 
         Agora que o segredo foi revelado, é hora de começar a pensar no presente perfeito para surpreender o seu amigo. 
         
-        Lembre-se de que o valor sugerido para o presente é de *R$60,00*, mas o mais importante é a criatividade e o carinho envolvidos no gesto.
+        Lembre-se de que o valor sugerido para o presente é de _*R$60,00*_, mas o mais importante é a criatividade e o carinho envolvidos no gesto.
         
         Prepare-se para uma noite cheia de risadas, alegria e, é claro, presentes incríveis!
 
         Mantenha o suspense até o dia da troca, e vamos fazer deste Amigo Oculto um momento inesquecível para todos.
 
-        Desejamos a vocês um Natal cheio de amor, harmonia e ótimas lembranças!
-
-        Abraço
+        Até lá!
         """
 
         texto = urllib.parse.quote(mensagem)
@@ -68,7 +66,8 @@ def enviar_lista_ana(participantes):
     pyautogui.click(1200, 0)
     time.sleep(60)
 
-    mensagem = f"🎅Sorteados do Amigo Oculto 2024🎅\n\n" + "\n".join([f"{item['nome']} → {item['sorteado']}" for item in participantes])
+    mensagem = f"🎅Sorteados do Amigo Oculto 2024🎅\n\n" + "\n".join(
+        [f"{item['nome']} → {item['sorteado']}" for item in participantes])
 
     texto = urllib.parse.quote(mensagem)
 
@@ -84,7 +83,20 @@ def enviar_lista_ana(participantes):
     # clica no botão de enviar do zap web
     k.press_and_release('enter')
 
+    pyautogui.click(1200, 0)
+
     print('Enviado Lista dos parcipantes pra Ana com sucesso!')
+
+
+def criar_arquivo(participantes):
+    nome_arquivo = "sorteados.txt"
+
+    # Criando o arquivo e escrevendo os itens da lista
+    with open(nome_arquivo, "w", encoding="utf-8") as arquivo:
+        arquivo.write(f"🎅 Sorteados do Amigo Oculto 2024 🎅\n\n" + "\n".join(
+            [f"{item['nome']} → {item['sorteado']}" for item in participantes]) + "\n")
+
+    print(f"Arquivo '{nome_arquivo}' criado com sucesso!")
 
 
 def gerar_arquivo():
@@ -94,26 +106,20 @@ def gerar_arquivo():
     # altura_tela = root.winfo_screenheight()
     # print(largura_tela)
     # print(altura_tela)
-
     # root.destroy()
 
     print('Gerando Arquivo...')
 
     lista_participantes = {
-        # 'Laura': '34996690025',
-        # 'Raquel': '34999830025',
-        # 'Matheus': '34998089988',
-        # 'Ricardo': '34998100025',
-
+        'Laura': '34996690025',
+        'Raquel': '34999830025',
+        'Matheus': '34998089988',
+        'Ricardo': '34998100025',
         'Fernanda': '61992856117',
         'Cecilia': '61992856117',
         'Milania': '61996993610',
-        'Marco': '61992164119',
+        'Marco Aurélio': '61992164119',
         'Maria Paula': '61998410397',
-        'Ricardo': '34998100025',
-        'Raquel': '34999830025',
-        'Laura': '34996690025',
-        'Matheus': '34998089988',
         'Alba': '34991733739',
         'Galeno': '34997259024',
         'Joyce': '62998651781',
@@ -121,11 +127,11 @@ def gerar_arquivo():
         'Marlei': '61991354006',
         'João Gabriel': '61999198248',
         'Alice': '34988614573',
-        # 'Humilda': '34999796471',
-        # 'Cirlene': '34991141424',
         'Fred': '34996794554',
         'Mário': '34988614573',
         'Marlene': '34988614573',
+        'Humilda': '34999796471',
+        'Cirlene': '34991141424',
     }
 
     participantes = []
@@ -157,10 +163,7 @@ def gerar_arquivo():
         for nome in nomes:
             lista.append({"nome": nome[0], "telefone": lista_participantes.get(nome[0]), "sorteado": nome[1]})
 
-        # Burlando o sistema
-        lista.append({"nome": "Humilda", "telefone": "34999796471", "sorteado": "Cirlene"})
-        lista.append({"nome": "Cirlene", "telefone": "34991141424", "sorteado": "Humilda"})
-
+        criar_arquivo(lista)
         enviar_zap(lista)
         enviar_lista_ana(lista)
 
@@ -171,7 +174,7 @@ def gerar_arquivo():
 
 
 # programado para começar às 02:50 da manha de sexta
-# schedule.every().saturday.at("22:25").do(gerar_arquivo)
+# schedule.every().monday.at("22:30").do(gerar_arquivo)
 gerar_arquivo()
 
 while 1:
