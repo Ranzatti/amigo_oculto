@@ -11,7 +11,7 @@ import tkinter as tk
 
 POSICAO_X_MOUSE_INICIAL = 490  # na horizontal
 POSICAO_Y_MOUSE_INICIAL = 15  # na vertical
-POSICAO_X_MOUSE_FINAL = 2350  # na horizontal
+POSICAO_X_MOUSE_FINAL = 2350  # na horizontal - 2350
 POSICAO_Y_MOUSE_FINAL = 1050  # na vertical
 TEMPO_PADRAO = 60
 
@@ -22,6 +22,7 @@ def amigo_secreto(participantes):
     amigo.append(amigo.pop(0))
     return list(zip(participantes, amigo))
 
+
 def clicar_enviar():
     # Posicionando o cursor no botão de envio do zap
     time.sleep(TEMPO_PADRAO)
@@ -30,6 +31,7 @@ def clicar_enviar():
     # Posicionando o cursor no x pra fechar a aba
     time.sleep(TEMPO_PADRAO)
     pyautogui.click(POSICAO_X_MOUSE_INICIAL, POSICAO_Y_MOUSE_INICIAL)
+
 
 def enviar_zap(participantes):
     for participante in participantes:
@@ -103,44 +105,44 @@ def gerar_arquivo():
 
     print('Gerando Arquivo...')
 
-    lista_participantes = {
-        'Laura': '34996690025',
-        'Raquel': '34999830025',
-        'Matheus': '34998089988',
-        'Ricardo': '34998100025',
-        'Ana': '34998723109',
-        'James': '34984438013',
-    }
-
     # lista_participantes = {
-    #     'Cecília': '61991743074',
-    #     'James': '34984438013',
-    #     'Ricardo': '34998100025',
-    #     'Vovó Nene': '34991733739',
-    #     'Marcus Vinícius': '61982055633',
-    #     'Vovô Mário': '34991733739',
-    #     'Milânia': '61996993610',
-    #     'Marco Aurélio': '61992164119',
-    #     'Joyce': '62998651781',
-    #     'Fernanda': '61992856117',
-    #     'Raquel': '34999830025',
-    #     'Guilherme': '67992641716',
     #     'Laura': '34996690025',
-    #     'Joelma': '62985889078',
-    #     'João Gabriel': '61999198248',
-    #     'Marlei': '61991354006',
-    #     'Maria Paula': '61998410397',
-    #     'Eduardo': '67993090917',
-    #     'Beatriz': '11952998748',
-    #     'Mariana': '67993244203',
-    #     'Maria Eduarda': '67993244203',
-    #     'Ariane': '67981584772',
-    #     'Galeno': '34997259024',
-    #     'Ana Luiza': '34998723109',
-    #     'Alba': '34991733739',
-    #     'Peixoto': '61995204803',
-    #     'Matheus': '34998089988'
+    #     'Raquel': '34999830025',
+    #     'Matheus': '34998089988',
+    #     'Ricardo': '34998100025',
+    #     'Ana': '34998723109',
+    #     'James': '34984438013',
     # }
+
+    lista_participantes = {
+        'Cecília': '61991743074',
+        'James': '34984438013',
+        'Ricardo': '34998100025',
+        'Vovó Nene': '34991733739',
+        'Marcus Vinícius': '61982055633',
+        'Vovô Mário': '34991733739',
+        'Milânia': '61996993610',
+        'Marco Aurélio': '61992164119',
+        'Joyce': '62998651781',
+        'Fernanda': '61992856117',
+        'Raquel': '34999830025',
+        'Guilherme': '67992641716',
+        'Laura': '34996690025',
+        'Joelma': '62985889078',
+        'João Gabriel': '61999198248',
+        'Marlei': '61991354006',
+        'Maria Paula': '61998410397',
+        'Eduardo': '67993090917',
+        'Beatriz': '11952998748',
+        'Mariana': '67993244203',
+        'Maria Eduarda': '67993244203',
+        'Ariane': '67981584772',
+        'Galeno': '34997259024',
+        'Ana Luiza': '34998723109',
+        'Alba': '34991733739',
+        'Matheus': '34998089988',
+        'Fred': '34996794554',
+    }
 
     participantes = []
     telefone_participantes = []
@@ -181,7 +183,7 @@ def gerar_arquivo():
 
 
 # programado para começar às 02:50 da manha de sexta
-schedule.every().wednesday.at("21:36").do(gerar_arquivo)
+schedule.every().friday.at("09:30").do(gerar_arquivo)
 # gerar_arquivo()
 
 while 1:
